@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/lee820/ServerIOT/global"
+	"github.com/lee820/ServerIOT/internal/model"
 	"github.com/lee820/ServerIOT/pkg/setting"
 )
 
@@ -12,6 +13,10 @@ func init() {
 	err := setupSetting()
 	if err != nil {
 		fmt.Printf("init setting error: %v", err)
+	}
+	err = setupDBEngine()
+	if err != nil {
+		fmt.Printf("init db fail. %v", err)
 	}
 }
 
@@ -44,5 +49,14 @@ func setupSetting() error {
 	global.ServerSetting.ReadTimeOut *= time.Second
 	global.ServerSetting.WriteTimeOut *= time.Second
 
+	return nil
+}
+
+func setupDBEngine() error {
+	var err error
+	global.DBEngine, err = model.NewDBEngine(global.DatabaseSetting)
+	if err != nil {
+		return err
+	}
 	return nil
 }
