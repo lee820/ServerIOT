@@ -2,28 +2,37 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/lee820/ServerIOT/global"
 	"github.com/lee820/ServerIOT/internal/model"
+	"github.com/lee820/ServerIOT/pkg/logger"
 	"github.com/lee820/ServerIOT/pkg/setting"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func init() {
 	err := setupSetting()
 	if err != nil {
 		fmt.Printf("init setting error: %v", err)
+
 	}
-	err = setupDBEngine()
+
+	/*
+		err = setupDBEngine()
+		if err != nil {
+			fmt.Printf("init db fail. %v", err)
+		}
+	*/
+	err = setupLogger()
 	if err != nil {
-		fmt.Printf("init db fail. %v", err)
+		fmt.Printf("init log fail err: %v", err)
 	}
 }
 
 func main() {
-	fmt.Printf("run mode: %s", global.ServerSetting.RunMode)
-	fmt.Printf("log save path: %s", global.AppSetting.LogSavePath)
-	fmt.Printf("db host: %s", global.DatabaseSetting.Host)
+	global.Logger.Infof("%s: %d", "lee", 666)
 }
 
 func setupSetting() error {
@@ -58,5 +67,15 @@ func setupDBEngine() error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func setupLogger() error {
+	global.Logger = logger.NewLogger(&lumberjack.Logger{
+		Filename:  global.AppSetting.LogSavePath + "/" + global.AppSetting.LogFileName + global.AppSetting.LogFileExt,
+		MaxSize:   600,
+		MaxAge:    10,
+		LocalTime: true},
+		"", log.LstdFlags).WithCaller(2)
 	return nil
 }

@@ -1,0 +1,4 @@
+2020/07/23 21:04:43 {"callers":["D:/develop/go/iot/ServerIOT/main.go: 25 %!s(func() string=0x5ba660)"],"level":"info","message":"lee: 666","time":1595509483626248500}
+2020/07/23 21:07:55 {"callers":["D:/develop/go/iot/ServerIOT/main.go: 28 %!s(func() string=0x5b90a0)"],"level":"info","message":"lee: 666","time":1595509675906125700}
+2020/07/23 21:10:10 {"callers":["D:/develop/go/iot/ServerIOT/main.go: 28 %!s(func() string=0x5b90c0)"],"level":"info","message":"lee: 666","time":1595509810681712900}
+2020/07/23 21:11:22 {"callers":["D:/develop/go/iot/ServerIOT/main.go: 28 main.init.0"],"level":"info","message":"lee: 666","time":1595509882236511900}
