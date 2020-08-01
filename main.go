@@ -31,6 +31,10 @@ func init() {
 	}
 }
 
+// @title 物联网后端操作系统
+// @version v1.0
+// description lee
+//termsOfService https://github.com//lee820
 func main() {
 	global.Logger.Infof("%s: %d", "lee", 666)
 }
