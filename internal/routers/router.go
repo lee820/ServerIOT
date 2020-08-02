@@ -2,6 +2,7 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/lee820/ServerIOT/internal/middleware"
 	v1 "github.com/lee820/ServerIOT/internal/routers/api/v1"
 )
 
@@ -10,6 +11,7 @@ func NewRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Use(middleware.Translations())
 
 	user := v1.NewUser()
 	apiv1 := r.Group("/api/v1")

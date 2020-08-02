@@ -46,6 +46,9 @@ func (e *Error) WithDetails(details ...string) *Error {
 	return e
 }
 
+func (e *Error) Details() []string {
+	return e.details
+}
 func (e *Error) StatusCode() int {
 	switch e.Code() {
 	case Success.Code():
