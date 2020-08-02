@@ -3,28 +3,34 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/http"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/lee820/ServerIOT/global"
 	"github.com/lee820/ServerIOT/internal/model"
+	"github.com/lee820/ServerIOT/internal/routers"
 	"github.com/lee820/ServerIOT/pkg/logger"
 	"github.com/lee820/ServerIOT/pkg/setting"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
 func init() {
+	//配置初始化
 	err := setupSetting()
 	if err != nil {
 		fmt.Printf("init setting error: %v", err)
 
 	}
 
+	//数据库连接初始化
 	/*
 		err = setupDBEngine()
 		if err != nil {
 			fmt.Printf("init db fail. %v", err)
 		}
 	*/
+	//日志初始化
 	err = setupLogger()
 	if err != nil {
 		fmt.Printf("init log fail err: %v", err)
@@ -34,9 +40,18 @@ func init() {
 // @title 物联网后端操作系统
 // @version v1.0
 // description lee
-//termsOfService https://github.com//lee820
+//termsOfService https://github.com/lee820
 func main() {
-	global.Logger.Infof("%s: %d", "lee", 666)
+	gin.SetMode(global.ServerSetting.RunMode)
+	router := routers.NewRouter()
+	s := &http.Server{
+		Addr:              ":" + global.ServerSetting.HttpPort,
+		Handler:           router,
+		ReadHeaderTimeout: global.ServerSetting.ReadTimeOut,
+		WriteTimeout:      global.ServerSetting.WriteTimeOut,
+		MaxHeaderBytes:    1 << 20,
+	}
+	s.ListenAndServe()
 }
 
 func setupSetting() error {
