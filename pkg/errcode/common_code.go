@@ -10,4 +10,8 @@ var (
 	UnauthorizedTokenTimeout  = NewError(10000005, "鉴权失败，Token超时")
 	UnauthorizedTokenGenerate = NewError(10000006, "鉴权失败，Token生成失败")
 	TooManyRequests           = NewError(10000007, "请求过多")
+	ErrorCreateUserFail       = NewError(20000001, "创建用户失败")
+	ErrorUpdateUserNameFail   = NewError(20000002, "更新用吗名失败")
+	ErrorUpdateUserPwdFail    = NewError(20000003, "更新用户密码失败")
+	ErrorGetUserInfoFail      = NewError(20000004, "获取用户信息失败")
 )

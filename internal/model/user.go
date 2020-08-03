@@ -31,6 +31,8 @@ func (u User) Delete(db *gorm.DB) error {
 }
 
 //Query 使用手机号查询用户是否存在
-func (u User) Query(db *gorm.DB, phoneNo string) error {
-	return db.Where("phone = ?", u.Phone).Find(&u).Error
+func (u User) Query(db *gorm.DB, phoneNo string) (User, error) {
+	var usr User
+	err := db.Where("phone = ?", u.Phone).Find(&usr).Error
+	return usr, err
 }
