@@ -38,7 +38,7 @@ func BindAndValid(c *gin.Context, v interface{}) (bool, ValidErrors) {
 		trans, _ := v.(ut.Translator)
 		verrs, ok := err.(val.ValidationErrors)
 		if !ok {
-			return true, nil
+			return false, errs
 		}
 		for k, value := range verrs.Translate(trans) {
 			errs = append(errs, &ValidError{
@@ -46,7 +46,7 @@ func BindAndValid(c *gin.Context, v interface{}) (bool, ValidErrors) {
 				Message: value,
 			})
 		}
-		return true, errs
+		return false, errs
 	}
-	return false, nil
+	return true, nil
 }
