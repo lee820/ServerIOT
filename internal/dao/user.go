@@ -32,8 +32,18 @@ func (d *Dao) UpdateUserPassword(id uint32, pwd string) error {
 	return usr.Update(d.engine, pwd)
 }
 
-//GetUserInfo dao层获取用户信息
-func (d *Dao) GetUserInfo(phone string) (model.User, error) {
-	user := model.User{Phone: phone}
+//GetUserInfo dao层使用手机号查询用户信息
+func (d *Dao) GetUserInfoByPhone(phone string) (model.User, error) {
+	user := model.User{
+		Phone: phone,
+	}
 	return user.Query(d.engine, phone)
+}
+
+//GetUserInfo dao层用户名查询用户信息
+func (d *Dao) GetUserInfoByUserName(name string) (model.User, error) {
+	user := model.User{
+		Name: name,
+	}
+	return user.Query(d.engine, name)
 }

@@ -24,12 +24,11 @@ func init() {
 	}
 
 	//数据库连接初始化
-	/*
-		err = setupDBEngine()
-		if err != nil {
-			fmt.Printf("init db fail. %v", err)
-		}
-	*/
+	err = setupDBEngine()
+	if err != nil {
+		fmt.Printf("init db fail. %v", err)
+	}
+
 	//日志初始化
 	err = setupLogger()
 	if err != nil {
@@ -43,6 +42,8 @@ func init() {
 //termsOfService https://github.com/lee820
 func main() {
 	gin.SetMode(global.ServerSetting.RunMode)
+	/*debug不打印彩色字体*/
+	gin.DisableConsoleColor()
 	router := routers.NewRouter()
 	s := &http.Server{
 		Addr:              ":" + global.ServerSetting.HttpPort,

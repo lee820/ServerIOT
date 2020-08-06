@@ -14,4 +14,8 @@ var (
 	ErrorUpdateUserNameFail   = NewError(20000002, "更新用吗名失败")
 	ErrorUpdateUserPwdFail    = NewError(20000003, "更新用户密码失败")
 	ErrorGetUserInfoFail      = NewError(20000004, "获取用户信息失败")
+	ErrorUserNotFound         = NewError(20000005, "用户不存在")
+	ErrorUserExist            = NewError(20000006, "用户已存在")
+	ErrorWrongPassword        = NewError(20000007, "用户密码错误")
+	ErrorPhoneExist           = NewError(20000008, "手机号已被注册")
 )
