@@ -71,7 +71,7 @@ func (l Login) UserRegister(c *gin.Context) {
 	}
 	//服务层实例
 	svc := service.New(c.Request.Context())
-	//查询用户是否存在
+	//查询用户手机号是否存在
 	userInfoByPhone := service.GetUserInfoRequestByPhone{
 		Phone: param.Phone,
 	}
@@ -88,7 +88,7 @@ func (l Login) UserRegister(c *gin.Context) {
 	if err != nil {
 		//创建失败
 		global.Logger.Errorf(c, "UserRegister svc.GetUserInfoByPhone err: %v", err)
-		response.ToErrorResponse(errcode.ErrorCreateUserFail)
+		response.ToErrorResponse(errcode.ErrorUserExist)
 		return
 	}
 

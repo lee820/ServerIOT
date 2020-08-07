@@ -28,3 +28,4 @@
 2020/08/07 11:26:13 {"callers":["D:/develop/code/go/iot/ServerIOT/main.go: 33 main.init.0"],"level":"error","message":"UserRegister svc.GetUserInfoByPhone err: record not found","time":1596770773335080000}
 2020/08/07 11:27:30 {"callers":["D:/develop/code/go/iot/ServerIOT/main.go: 33 main.init.0"],"level":"error","message":"UserRegister svc.GetUserInfoByPhone err: \u003cnil\u003e","time":1596770850902864100}
 2020/08/07 11:28:46 {"callers":["D:/develop/code/go/iot/ServerIOT/main.go: 33 main.init.0"],"level":"error","message":"UserRegister svc.GetUserInfoByPhone err: \u003cnil\u003e","time":1596770926015599300}
+2020/08/07 14:22:09 {"callers":["D:/develop/code/go/iot/ServerIOT/main.go: 33 main.init.0"],"level":"error","message":"UserRegister svc.GetUserInfoByPhone err: Error 1062: Duplicate entry 'yang' for key 'name'","time":1596781329425231400}
