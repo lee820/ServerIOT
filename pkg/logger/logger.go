@@ -8,8 +8,6 @@ import (
 	"log"
 	"runtime"
 	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 type Level int
@@ -131,13 +129,13 @@ func (l *Logger) JSONFormat(level Level, message string) map[string]interface{} 
 }
 
 func (l *Logger) WithTrace() *Logger {
-	ginCtx, ok := l.ctx.(*gin.Context)
-	if ok {
-		return l.WithFields(Fields{
-			"trace_id": ginCtx.MustGet("X-Trace-ID"),
-			"span_id":  ginCtx.MustGet("X-Span-ID"),
-		})
-	}
+	// ginCtx, ok := l.ctx.(*gin.Context)
+	// if ok {
+	// 	return l.WithFields(Fields{
+	// 		"trace_id": ginCtx.MustGet("X-Trace-ID"),
+	// 		"span_id":  ginCtx.MustGet("X-Span-ID"),
+	// 	})
+	// }
 	return l
 }
 
@@ -147,14 +145,22 @@ func (l *Logger) Output(level Level, message string) {
 	switch level {
 	case LevelDebug:
 		l.newLogger.Print(content)
+		break
 	case LevelInfo:
 		l.newLogger.Print(content)
+		break
 	case LevelWarn:
 		l.newLogger.Print(content)
+		break
 	case LevelError:
-		l.newLogger.Fatal(content)
+		l.newLogger.Print(content)
+		break
+	case LevelFatal:
+		l.newLogger.Fatal(content) //fatal会导致线程退出
+		break
 	case LevelPanic:
 		l.newLogger.Panic(content)
+		break
 	}
 }
 
