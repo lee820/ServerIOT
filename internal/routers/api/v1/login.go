@@ -67,7 +67,7 @@ func (l Login) UserRegister(c *gin.Context) {
 	if !valid {
 		global.Logger.Errorf(c, "UserRegister app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
-		c.Abort()
+		return
 	}
 	//服务层实例
 	svc := service.New(c.Request.Context())
@@ -75,17 +75,12 @@ func (l Login) UserRegister(c *gin.Context) {
 	userInfoByPhone := service.GetUserInfoRequestByPhone{
 		Phone: param.Phone,
 	}
-	getUser, err := svc.GetUserInfoByPhone(&userInfoByPhone)
-	if err != nil {
-		//查询失败
+	_, err := svc.GetUserInfoByPhone(&userInfoByPhone)
+	if err == nil {
+		//查询成功，说明用户手机号已被注册
 		global.Logger.Errorf(c, "UserRegister svc.GetUserInfoByPhone err: %v", err)
-		response.ToErrorResponse(errcode.ErrorGetUserInfoFail)
-		c.Abort()
-	}
-	if getUser.Phone != "" {
-		//用户手机号已被注册
 		response.ToErrorResponse(errcode.ErrorPhoneExist)
-		c.Abort()
+		return
 	}
 
 	//进行注册，创建用户
@@ -94,7 +89,7 @@ func (l Login) UserRegister(c *gin.Context) {
 		//创建失败
 		global.Logger.Errorf(c, "UserRegister svc.GetUserInfoByPhone err: %v", err)
 		response.ToErrorResponse(errcode.ErrorCreateUserFail)
-		c.Abort()
+		return
 	}
 
 	//注册成功，创建用户成功。发放token

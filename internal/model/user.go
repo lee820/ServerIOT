@@ -30,10 +30,11 @@ func (u User) Delete(db *gorm.DB) error {
 	return db.Where("id = ?", u.ID).Delete(&u).Error
 }
 
-//Query 使用手机号查询用户是否存在
-func (u User) Query(db *gorm.DB, param interface{}) (User, error) {
+//Query 查询用户是否存在
+//gorm 的结构体查询，gorm默认只查询结构体有值的字段
+func (u User) Query(db *gorm.DB) (User, error) {
 	var usr User
 	//使用结构体，gorm自动查询有值的字段
-	err := db.Where(param).Find(&usr).Error
+	err := db.Where(&u).Find(&usr).Error
 	return usr, err
 }
