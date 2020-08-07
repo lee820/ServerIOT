@@ -32,7 +32,7 @@ func (l Login) UserLogin(c *gin.Context) {
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("qpp.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "qpp.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
@@ -46,7 +46,7 @@ func (l Login) UserLogin(c *gin.Context) {
 	}
 	//查询用户密码是否正确
 	if getUser.Password != param.Password {
-		global.Logger.Errorf("svc.CreateUser err: %v", err)
+		global.Logger.Errorf(c, "svc.CreateUser err: %v", err)
 		response.ToErrorResponse(errcode.ErrorWrongPassword)
 		return
 	}
@@ -65,7 +65,7 @@ func (l Login) UserRegister(c *gin.Context) {
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("UserRegister app.BindAndValid errs: %v", errs)
+		global.Logger.Errorf(c, "UserRegister app.BindAndValid errs: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		c.Abort()
 	}
@@ -78,7 +78,7 @@ func (l Login) UserRegister(c *gin.Context) {
 	getUser, err := svc.GetUserInfoByPhone(&userInfoByPhone)
 	if err != nil {
 		//查询失败
-		global.Logger.Errorf("UserRegister svc.GetUserInfoByPhone err: %v", err)
+		global.Logger.Errorf(c, "UserRegister svc.GetUserInfoByPhone err: %v", err)
 		response.ToErrorResponse(errcode.ErrorGetUserInfoFail)
 		c.Abort()
 	}
@@ -92,7 +92,7 @@ func (l Login) UserRegister(c *gin.Context) {
 	err = svc.CreateUser(&param)
 	if err != nil {
 		//创建失败
-		global.Logger.Errorf("UserRegister svc.GetUserInfoByPhone err: %v", err)
+		global.Logger.Errorf(c, "UserRegister svc.GetUserInfoByPhone err: %v", err)
 		response.ToErrorResponse(errcode.ErrorCreateUserFail)
 		c.Abort()
 	}
