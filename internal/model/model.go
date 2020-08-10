@@ -12,7 +12,7 @@ import (
 
 //Model 所有model头字段
 type Model struct {
-	ID         uint32 `gorm:""primary_key" json:"id"`
+	ID         uint32 `gorm:"primary_key" json:"id"`
 	CreatedOn  uint32 `json:"created_on"`
 	ModifiedOn uint32 `json:"modified_on"`
 	DeletedOn  uint32 `json:"deleted_on"`

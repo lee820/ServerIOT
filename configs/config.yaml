@@ -6,6 +6,8 @@ Server:
 App:
   DefaultPageSize: 10
   MaxPageSize: 100
+  NormalUserDeviceUplimit: 20
+  VipUserDeviceUplimit: 100
   LogSavePath: storage/logs
   LogFileName: app
   LogFileExt: .log

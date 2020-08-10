@@ -8,6 +8,7 @@ type User struct {
 	Name     string `json:"name"`
 	Password string `json:"password"`
 	Phone    string `json:"phone"`
+	Devcount int    `json:"dev_count"`
 }
 
 //TableName 获取用户表的表名

@@ -18,4 +18,6 @@ var (
 	ErrorUserExist            = NewError(20000006, "用户已存在")
 	ErrorWrongPassword        = NewError(20000007, "用户密码错误")
 	ErrorPhoneExist           = NewError(20000008, "手机号已被注册")
+	ErrorDeviceCreateFail     = NewError(20000009, "设备创建失败")
+	ErrorDeviceUpperLimit     = NewError(20000010, "用户设备达到上限")
 )
