@@ -17,11 +17,12 @@ func NewDevRouter() DevRouter {
 	return DevRouter{}
 }
 
+//CreateDevice 添加设备路由
 func (d *DevRouter) CreateDevice(c *gin.Context) {
 	param := service.CreateDeviceRequest{}
 	response := app.NewResponse(c)
 	//参数校验
-	valid, errs := app.BindAndValid(c, param)
+	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
 		global.Logger.Errorf(c, "createDevice bindAndValid ers: %v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
@@ -30,20 +31,20 @@ func (d *DevRouter) CreateDevice(c *gin.Context) {
 
 	svc := service.New(c.Request.Context())
 	//查询用户是否存在
-	userInfo, err := svc.GetUserInfoByID(param.UserID)
+	userInfo, err := svc.GetUserInfoByID(param.UID)
 	if err != nil {
 		global.Logger.Errorf(c, "CreateDevice svc.QueryUser err: %v", err)
 		response.ToErrorResponse(errcode.ErrorUserNotFound)
 		return
 	}
 	//查询用户设备数量是否到达上限
-	if userInfo.Devcount >= global.AppSetting.NormalUserDeviceUplimit {
+	if userInfo.DevCount >= global.AppSetting.NormalUserDeviceUplimit {
 		//达到上限，不能添加设备，返回
 		response.ToErrorResponse(errcode.ErrorDeviceUpperLimit)
 		return
 	}
 	//创建设备
-	svc.UpdateUserDevCount(param.UserID, userInfo.Devcount+1) //用户设备数加1
+	svc.UpdateUserDevCount(param.UID, userInfo.DevCount+1) //用户设备数加1
 	err = svc.CreateDevice(&param)
 	//创建设备失败
 	if err != nil {

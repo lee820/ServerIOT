@@ -14,11 +14,13 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.Translations())
 
 	login := v1.NewLogin()
+	dev := v1.NewDevRouter()
 	apiv1 := r.Group("/api/v1")
 	{
 		apiv1.POST("/login", login.UserRegister)
 		apiv1.GET("/login", login.UserLogin)
 		//apiv1.DELETE("/login/:id", login.UserLogout)
+		apiv1.POST("/device", dev.CreateDevice)
 	}
 
 	return r

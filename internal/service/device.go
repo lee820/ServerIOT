@@ -4,17 +4,17 @@ import "github.com/lee820/ServerIOT/internal/model"
 
 //CreateDeviceRequest 创建设备请求
 type CreateDeviceRequest struct {
-	UserID      uint32 `form:"userid" binding:"required,gte=1"`
-	DeviceName  string `form:"devicename" binding:"min=3,max=32"`
-	DevicePlace string `form:"deviceplace" binding:"min=1,max=32"`
-	Running     uint8  `form:"running" bingding:"oneof= 0 1"`
+	UID         uint32 `form:"uid" binding:"required,gte=1"`
+	DeviceName  string `form:"device_name" binding:"min=3,max=32"`
+	DevicePlace string `form:"device_place" binding:"min=1,max=32"`
+	Running     uint8  `form:"running" binding:"oneof=0 1"`
 }
 
 //UpdateDeviceRequest 更新设备信息请求
 type UpdateDeviceRequest struct {
 	ID         uint32 `form:"id" binding:"required,gte=1"`
 	DeviceName string `form:"devicename" binding:"min=3,max=32"`
-	Running    uint8  `form:"running" bingding:"oneof= 0 1"`
+	Running    uint8  `form:"running" binding:"oneof= 0 1"`
 }
 
 //DeleteDeviceRequest 删除设备请求
@@ -36,7 +36,7 @@ type ListDeviceRequest struct {
 
 //CreateDevice service层处理创建设备请求
 func (svc *Service) CreateDevice(param *CreateDeviceRequest) error {
-	return svc.dao.CreateDevice(param.UserID, param.DeviceName, param.DevicePlace, param.Running)
+	return svc.dao.CreateDevice(param.UID, param.DeviceName, param.DevicePlace, param.Running)
 }
 
 //UpdateDevice service层处理更新设备信息请求

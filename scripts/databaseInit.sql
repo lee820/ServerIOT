@@ -15,7 +15,7 @@ CREATE TABLE `user` (
 	`name`        varchar(16) NOT NULL UNIQUE COMMENT '用户名',
 	`password`    varchar(255) NOT NULL COMMENT '用户密码',
 	`phone`       char(11) NOT NULL UNIQUE COMMENT '用户手机号',
-	`dev_count`   int NOT NULL DEFAULT '0' COMMENT '用户当前拥有设备数量'
+	`dev_count`   int NOT NULL DEFAULT '0' COMMENT '用户当前拥有设备数量',
 	`created_on`  int unsigned DEFAULT '0' COMMENT '创建时间',
 	`modified_on` int unsigned DEFAULT '0' COMMENT '修改时间',
 	`deleted_on`  int unsigned DEFAULT '0' COMMENT '删除时间',
@@ -39,7 +39,7 @@ CREATE TABLE `user_device` (
 drop table if exists device;
 CREATE TABLE `device` (
 	`id`          int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`user_id`     int unsigned NOT NULL COMMIT '所属的用户ID',
+	`user_id`     int unsigned NOT NULL COMMENT '所属的用户ID',
 	`name`        varchar(16) NOT NULL COMMENT '设备名称',
 	`place`       varchar(255) DEFAULT '' COMMENT '设备安放的位置',
 	`running`     tinyint unsigned DEFAULT '0' COMMENT '设备运行状态，0表示未运行，1表示运行中',
