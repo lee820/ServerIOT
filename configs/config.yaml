@@ -21,3 +21,7 @@ Database:
   ParseTime: True
   MaxIdleConns: 10
   MaxOpenConns: 30
+JWT:
+  Secret: lee@mplane_8411
+  Issuer: MatrixPlan
+  Expire: 3*24*60*60

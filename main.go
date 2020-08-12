@@ -75,8 +75,14 @@ func setupSetting() error {
 		return err
 	}
 
+	err = setting.ReadSection("JWT", &global.JWTSetting)
+	if err != nil {
+		return err
+	}
+
 	global.ServerSetting.ReadTimeOut *= time.Second
 	global.ServerSetting.WriteTimeOut *= time.Second
+	global.JWTSetting.Expire *= time.Second
 
 	return nil
 }

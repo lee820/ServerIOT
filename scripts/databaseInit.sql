@@ -60,3 +60,15 @@ CREATE TABLE `device_data` (
 	`deleted_on`  int unsigned DEFAULT '0' COMMENT '删除时间',
 	`is_del`      tinyint unsigned DEFAULT '0' COMMENT '是否删除 0为未删除， 1为已删除'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='设备数据表';
+
+-- 创建jwt认证表
+drop table if exists auth;
+CREATE TABLE `auth` (
+	`id`          int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`app_key`     varchar(20) DEFAULT '' COMMENT 'Key',
+	`app_secret`  varchar(50) DEFAULT '' COMMENT 'Secret',
+	`created_on`  int unsigned DEFAULT '0' COMMENT '创建时间',
+	`modified_on` int unsigned DEFAULT '0' COMMENT '修改时间',
+	`deleted_on`  int unsigned DEFAULT '0' COMMENT '删除时间',
+	`is_del`      tinyint unsigned DEFAULT '0' COMMENT '是否删除 0为未删除， 1为已删除'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='认证管理';
