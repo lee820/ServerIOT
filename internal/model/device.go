@@ -50,7 +50,7 @@ func (d *Device) List(db *gorm.DB, pageOffset, pageSize int) ([]*Device, error) 
 	}
 
 	//查找有的数据
-	err = db.Where("user_id = ?AND is_del = ?", d.UserId, 0).Find(&devices).Error
+	err = db.Where("user_id = ? AND is_del = ?", d.UserId, 0).Find(&devices).Error
 	if err != nil {
 		return nil, err
 	}

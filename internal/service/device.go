@@ -24,14 +24,14 @@ type DeleteDeviceRequest struct {
 
 //CountDeviceRequest 查询设备总数请求
 type CountDeviceRequest struct {
-	UserID uint32 `form:"userid" binding:"required,gte=1"`
+	UID uint32 `form:"uid" binding:"required,gte=1"`
 }
 
 //ListDeviceRequest 查询用户设备信息请求
 type ListDeviceRequest struct {
-	UserID   uint32 `form:"userid" binding:"required,gte=1"`
+	UID      uint32 `form:"uid" binding:"required,gte=1"`
 	Page     int    `form:"page" binding:"required,gte=0"`
-	PageSize int    `form:"pagesize" binding:"required, gte=1"`
+	PageSize int    `form:"pagesize" binding:"required,gte=1"`
 }
 
 //CreateDevice service层处理创建设备请求
@@ -51,10 +51,10 @@ func (svc *Service) DeleteDevice(param *DeleteDeviceRequest) error {
 
 //CountDevice service层处理统计设备数量请求
 func (svc *Service) CountDevice(param *CountDeviceRequest) (int, error) {
-	return svc.dao.CountDevice(param.UserID)
+	return svc.dao.CountDevice(param.UID)
 }
 
 //ListDevice service层处理查询设备信息请求
 func (svc *Service) ListDevice(param *ListDeviceRequest) ([]*model.Device, error) {
-	return svc.dao.ListDevices(param.UserID, param.Page, param.PageSize)
+	return svc.dao.ListDevices(param.UID, param.Page, param.PageSize)
 }

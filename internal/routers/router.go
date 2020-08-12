@@ -21,6 +21,9 @@ func NewRouter() *gin.Engine {
 		apiv1.GET("/login", login.UserLogin)
 		//apiv1.DELETE("/login/:id", login.UserLogout)
 		apiv1.POST("/device", dev.CreateDevice)
+		apiv1.POST("/device/:id", dev.UpdateDevice)
+		apiv1.DELETE("/device/:id", dev.DeleteDevice)
+		apiv1.GET("/device/:id", dev.GetDeviceList)
 	}
 
 	return r
