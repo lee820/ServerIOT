@@ -1,11 +1,23 @@
 package routers
 
 import (
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/lee820/ServerIOT/global"
 	"github.com/lee820/ServerIOT/internal/middleware"
 	"github.com/lee820/ServerIOT/internal/routers/api"
 	v1 "github.com/lee820/ServerIOT/internal/routers/api/v1"
+	"github.com/lee820/ServerIOT/pkg/limiter"
+)
+
+var methodLimiters = limiter.NewMethodLimiter().AddBuckets(
+	limiter.LimiterBucketRule{
+		Key:          "/auth",
+		FillInterval: time.Second,
+		Capacity:     10,
+		Quantum:      10,
+	},
 )
 
 //NewRouter 新增路由
@@ -19,6 +31,7 @@ func NewRouter() *gin.Engine {
 		r.Use(middleware.Recovery())
 	}
 
+	r.Use(middleware.RateLimiter(methodLimiters))
 	r.Use(middleware.Translations())
 
 	r.GET("/auth", api.GetAuth)
