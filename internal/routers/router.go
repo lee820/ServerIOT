@@ -32,6 +32,7 @@ func NewRouter() *gin.Engine {
 	}
 
 	r.Use(middleware.RateLimiter(methodLimiters))
+	r.Use(middleware.ContextTimeout(60 * time.Second))
 	r.Use(middleware.Translations())
 
 	r.GET("/auth", api.GetAuth)
