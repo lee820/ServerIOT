@@ -24,7 +24,7 @@ Database:
 JWT:
   Secret: lee@mplane_8411
   Issuer: MatrixPlan
-  Expire: 3*24*60*60
+  Expire: 259200
 Email:
   Host: smtp.163.com
   Port: 465

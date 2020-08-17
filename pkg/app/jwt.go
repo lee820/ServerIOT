@@ -14,8 +14,8 @@ type Claims struct {
 }
 
 //GetJWTSecret 获取jwt secret
-func GetJWTSecret() string {
-	return global.JWTSetting.AppSecret
+func GetJWTSecret() []byte {
+	return []byte(global.JWTSetting.AppSecret)
 }
 
 //GenerateToken 生成jwt token
