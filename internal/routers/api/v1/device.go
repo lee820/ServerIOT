@@ -123,6 +123,12 @@ func (d *DevRouter) GetDeviceList(c *gin.Context) {
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()...))
 		return
 	}
+	//防止请求结构体带UID，并且UID和请求UID不一样，导致查询异常
+	if param.UID != convert.StrTo(c.Param("id")).MustUInt32() {
+		global.Logger.Errorf(c, "UID WRONG")
+		response.ToErrorResponse(errcode.ErrorUserNotFound)
+		return
+	}
 
 	svc := service.New(c.Request.Context())
 	//pager := app.Pager{Page: app.GetPage(c), PageSize: app.GetPageSize(c)}

@@ -12,6 +12,7 @@ import (
 	"github.com/lee820/ServerIOT/internal/routers"
 	"github.com/lee820/ServerIOT/pkg/logger"
 	"github.com/lee820/ServerIOT/pkg/setting"
+	"github.com/lee820/ServerIOT/pkg/tracer"
 	"gopkg.in/natefinch/lumberjack.v2"
 )
 
@@ -22,17 +23,20 @@ func init() {
 		fmt.Printf("init setting error: %v", err)
 
 	}
-
 	//数据库连接初始化
 	err = setupDBEngine()
 	if err != nil {
 		fmt.Printf("init db fail. %v", err)
 	}
-
 	//日志初始化
 	err = setupLogger()
 	if err != nil {
 		fmt.Printf("init log fail err: %v", err)
+	}
+	//jaegerTracer 链路追踪初始化
+	err = setupTracer()
+	if err != nil {
+		fmt.Printf("init tracer fail err: %v", err)
 	}
 }
 
@@ -108,5 +112,14 @@ func setupLogger() error {
 		MaxAge:    10,
 		LocalTime: true},
 		"", log.LstdFlags).WithCaller(2)
+	return nil
+}
+
+func setupTracer() error {
+	jaegerTracer, _, err := tracer.NewJaegerTracer("iot-service", "127.0.0.1:6831")
+	if err != nil {
+		return err
+	}
+	global.Tracer = jaegerTracer
 	return nil
 }

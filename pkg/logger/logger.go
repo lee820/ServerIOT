@@ -8,6 +8,8 @@ import (
 	"log"
 	"runtime"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Level int
@@ -128,14 +130,15 @@ func (l *Logger) JSONFormat(level Level, message string) map[string]interface{} 
 	return data
 }
 
+//WithTrace 打印trace追踪信息
 func (l *Logger) WithTrace() *Logger {
-	// ginCtx, ok := l.ctx.(*gin.Context)
-	// if ok {
-	// 	return l.WithFields(Fields{
-	// 		"trace_id": ginCtx.MustGet("X-Trace-ID"),
-	// 		"span_id":  ginCtx.MustGet("X-Span-ID"),
-	// 	})
-	// }
+	ginCtx, ok := l.ctx.(*gin.Context)
+	if ok {
+		return l.WithFields(Fields{
+			"trace_id": ginCtx.MustGet("X-Trace-ID"),
+			"span_id":  ginCtx.MustGet("X-Span-ID"),
+		})
+	}
 	return l
 }
 

@@ -34,14 +34,17 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.RateLimiter(methodLimiters))
 	r.Use(middleware.ContextTimeout(60 * time.Second))
 	r.Use(middleware.Translations())
+	r.Use(middleware.Tracing())
 
-	r.GET("/auth", api.GetAuth)
 	login := v1.NewLogin()
 	dev := v1.NewDevRouter()
+	r.GET("/auth", api.GetAuth)
+	//用户注册不需要token验证
+	r.POST("/login", login.UserRegister)
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(middleware.JWT())
 	{
-		apiv1.POST("/login", login.UserRegister)
+
 		apiv1.GET("/login", login.UserLogin)
 		//apiv1.DELETE("/login/:id", login.UserLogout)
 		apiv1.POST("/device", dev.CreateDevice)

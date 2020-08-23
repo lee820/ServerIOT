@@ -14,7 +14,7 @@ func JWT() gin.HandlerFunc {
 			token string
 			ecode = errcode.Success
 		)
-		if s, exist := c.GetQuery("token"); exist {
+		if s := c.GetHeader("Authorization"); s != "" {
 			token = s
 		} else {
 			token = c.GetHeader("token")
