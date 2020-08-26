@@ -50,10 +50,18 @@ func (l Login) UserLogin(c *gin.Context) {
 		response.ToErrorResponse(errcode.ErrorWrongPassword)
 		return
 	}
+
+	//登录成功才发放token
+	token, err := app.GenerateToken("lee", global.JWTSetting.AppSecret)
+	if err != nil {
+		global.Logger.Errorf(c, "GetAuth app.GenerateToken err: %v", err)
+		response.ToErrorResponse(errcode.UnauthorizedTokenGenerate)
+		return
+	}
 	response.ToResponse(gin.H{
 		"code": http.StatusOK,
 		"Msg":  "登录成功",
-		"Data": "token:",
+		"Data": token,
 	})
 
 	return
@@ -92,17 +100,11 @@ func (l Login) UserRegister(c *gin.Context) {
 		return
 	}
 
-	//注册成功，创建用户成功。发放token
-	token, err := app.GenerateToken("lee", global.JWTSetting.AppSecret)
-	if err != nil {
-		global.Logger.Errorf(c, "GetAuth app.GenerateToken err: %v", err)
-		response.ToErrorResponse(errcode.UnauthorizedTokenGenerate)
-		return
-	}
+	//注册成功，创建用户成功
 	response.ToResponse(gin.H{
 		"code": http.StatusOK,
 		"Msg":  "注册成功",
-		"Data": token,
+		"Data": "",
 	})
 }
 

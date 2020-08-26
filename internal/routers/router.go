@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/lee820/ServerIOT/global"
 	"github.com/lee820/ServerIOT/internal/middleware"
-	"github.com/lee820/ServerIOT/internal/routers/api"
+	"github.com/lee820/ServerIOT/internal/pages"
 	v1 "github.com/lee820/ServerIOT/internal/routers/api/v1"
 	"github.com/lee820/ServerIOT/pkg/limiter"
 )
@@ -20,9 +20,8 @@ var methodLimiters = limiter.NewMethodLimiter().AddBuckets(
 	},
 )
 
-//NewRouter 新增路由
-func NewRouter() *gin.Engine {
-	r := gin.New()
+//NewRouter 新增api路由
+func NewRouter(r *gin.Engine) {
 	if global.ServerSetting.RunMode == "debug" {
 		r.Use(gin.Logger())
 		r.Use(gin.Recovery())
@@ -38,20 +37,28 @@ func NewRouter() *gin.Engine {
 
 	login := v1.NewLogin()
 	dev := v1.NewDevRouter()
-	r.GET("/auth", api.GetAuth)
-	//用户注册不需要token验证
-	r.POST("/login", login.UserRegister)
+	//r.GET("/auth", api.GetAuth)
+	//用户注册和登录不需要token验证
+	r.POST("/register", login.UserRegister)
+	r.POST("/auth", login.UserLogin)
 	apiv1 := r.Group("/api/v1")
 	apiv1.Use(middleware.JWT())
 	{
-
-		apiv1.GET("/login", login.UserLogin)
 		//apiv1.DELETE("/login/:id", login.UserLogout)
 		apiv1.POST("/device", dev.CreateDevice)
 		apiv1.POST("/device/:id", dev.UpdateDevice)
 		apiv1.DELETE("/device/:id", dev.DeleteDevice)
 		apiv1.GET("/device/:id", dev.GetDeviceList)
 	}
+}
 
-	return r
+//NewPageRouter 新增页面路由
+func NewPageRouter(r *gin.Engine) {
+	//配置静态文件目录
+	r.Static("/css", "./dist/css")
+	r.Static("/fonts", "./dist/fonts")
+	r.Static("/js", "./dist/js")
+	r.LoadHTMLFiles("./dist/index.html")
+
+	r.GET("/login", pages.LoginPage)
 }

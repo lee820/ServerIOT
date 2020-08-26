@@ -48,7 +48,9 @@ func main() {
 	gin.SetMode(global.ServerSetting.RunMode)
 	/*debug不打印彩色字体*/
 	gin.DisableConsoleColor()
-	router := routers.NewRouter()
+	router := gin.New()
+	routers.NewRouter(router)
+	routers.NewPageRouter(router)
 	s := &http.Server{
 		Addr:              ":" + global.ServerSetting.HttpPort,
 		Handler:           router,
